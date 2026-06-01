@@ -71,19 +71,14 @@ const handleDeactivate = async (watchId) => {
       account: account,
     });
 
-    const tx = await client.writeContract({
+    await client.writeContract({
       address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       functionName: 'deactivate_watch',
       args: [BigInt(watchId)],
     });
 
-    await client.waitForTransactionReceipt({ hash: tx });
-
-    setWatches(prev => prev.map(w =>
-      w.id === watchId ? { ...w, active: false } : w
-    ));
-
-    fetchMyWatches(account);
+    // Wait 3 seconds then refresh from chain
+    setTimeout(() => fetchMyWatches(account), 3000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
