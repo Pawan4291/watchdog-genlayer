@@ -66,23 +66,18 @@ const fetchMyWatches = useCallback(async (addr) => {
 const handleDeactivate = async (watchId) => {
   if (!account) return;
   try {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const signerAddress = accounts[0];
-    
     const client = createClient({
       chain: testnetBradbury,
-      account: signerAddress,
+      account: account,
     });
 
     await client.writeContract({
       address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       functionName: 'deactivate_watch',
-      args: [BigInt(watchId)],
+      args: [BigInt(parseInt(watchId))],
     });
-    
 
-    alert('Deactivated! Refreshing...');
-    setTimeout(() => window.location.reload(), 5000);
+    setTimeout(() => window.location.reload(), 6000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
