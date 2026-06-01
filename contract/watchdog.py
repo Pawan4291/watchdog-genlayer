@@ -103,7 +103,7 @@ Respond ONLY in this exact JSON format, no extra text:
     def deactivate_watch(self, watch_id: u256) -> None:
         assert watch_id < self.watch_count, "Watch not found"
         watch = json.loads(self.watches[watch_id])
-        assert watch["owner"] == str(gl.message.sender_address), "Not the owner"
+        assert watch["owner"].lower() == str(gl.message.sender_address).lower(), "Not the owner"
         watch["active"] = False
         self.watches[watch_id] = json.dumps(watch)
 
