@@ -79,9 +79,10 @@ const handleDeactivate = async (watchId) => {
       functionName: 'deactivate_watch',
       args: [BigInt(watchId)],
     });
+    
 
     alert('Deactivated! Refreshing...');
-    setTimeout(() => fetchMyWatches(account), 5000);
+    setTimeout(() => window.location.reload(), 5000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
