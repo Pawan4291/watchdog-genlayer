@@ -78,7 +78,8 @@ const handleDeactivate = async (watchId) => {
     });
 
     // Wait 3 seconds then refresh from chain
-    setTimeout(() => fetchMyWatches(account), 3000);
+    alert('Watch deactivated! Refreshing in 8 seconds...');
+setTimeout(() => fetchMyWatches(account), 8000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
