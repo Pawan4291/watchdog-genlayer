@@ -1,0 +1,14 @@
+name: WATCHDOG Cron
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger watchdog checks
+        run: |
+          curl -X GET "${{ secrets.VERCEL_APP_URL }}/api/cron/run-checks" \
+          -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
