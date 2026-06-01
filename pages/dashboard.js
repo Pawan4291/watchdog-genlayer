@@ -1,6 +1,6 @@
 // pages/dashboard.js
 
-import { createClient } from 'genlayer-js';
+import { createClient, createAccount } from 'genlayer-js';
 import { testnetBradbury } from 'genlayer-js/chains';
 import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
@@ -66,9 +66,12 @@ const fetchMyWatches = useCallback(async (addr) => {
 const handleDeactivate = async (watchId) => {
   if (!account) return;
   try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const signerAddress = accounts[0];
+    
     const client = createClient({
       chain: testnetBradbury,
-      account: window.ethereum,
+      account: signerAddress,
     });
 
     await client.writeContract({
