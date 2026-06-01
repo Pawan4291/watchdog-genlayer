@@ -70,17 +70,21 @@ const handleDeactivate = async (watchId) => {
       chain: testnetBradbury,
       account: account,
     });
-    await client.connect('testnetBradbury');
-    await client.writeContract({
+
+    const tx = await client.writeContract({
       address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
       functionName: 'deactivate_watch',
-      args: [watchId],
-      value: BigInt(0),
+      args: [BigInt(watchId)],
     });
-    // Update UI immediately
+
+    await client.waitForTransactionReceipt({ hash: tx });
+
     setWatches(prev => prev.map(w =>
       w.id === watchId ? { ...w, active: false } : w
     ));
+
+    fetchMyWatches(account);
+
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
       alert('Error: ' + err.message);
