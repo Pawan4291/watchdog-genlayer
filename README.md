@@ -155,3 +155,4 @@ WATCHDOG uses all of these capabilities to create something no other blockchain 
 ---
 
 Built with ❤️ and $0 by a solo dev.
+.
