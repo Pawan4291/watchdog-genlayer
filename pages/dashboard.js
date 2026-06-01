@@ -68,7 +68,7 @@ const handleDeactivate = async (watchId) => {
   try {
     const client = createClient({
       chain: testnetBradbury,
-      account: account,
+      account: window.ethereum,
     });
 
     await client.writeContract({
@@ -77,9 +77,8 @@ const handleDeactivate = async (watchId) => {
       args: [BigInt(watchId)],
     });
 
-    // Wait 3 seconds then refresh from chain
-    alert('Watch deactivated! Refreshing in 8 seconds...');
-setTimeout(() => fetchMyWatches(account), 8000);
+    alert('Deactivated! Refreshing...');
+    setTimeout(() => fetchMyWatches(account), 5000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {
