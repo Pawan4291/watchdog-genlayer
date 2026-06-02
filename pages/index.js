@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import WatchForm from '../components/WatchForm';
 import TriggerCard from '../components/TriggerCard';
+import StatusBar from '../components/StatusBar';
 
 export default function Home() {
   const [account, setAccount] = useState(null);
@@ -252,6 +253,7 @@ export default function Home() {
     </div>
   </div>
 </div>
+<StatusBar />
       </main>
 
       {/* Footer */}
