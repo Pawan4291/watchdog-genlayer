@@ -49,16 +49,21 @@ const fetchMyWatches = useCallback(async (addr) => {
 }, []);
 
   useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum.request({ method: 'eth_accounts' })
-        .then(accounts => {
-          if (accounts[0]) {
-            setAccount(accounts[0]);
-            fetchMyWatches(accounts[0]);
-          }
-        });
-    }
-  }, [fetchMyWatches]);
+  if (window.ethereum) {
+    window.ethereum.request({ method: 'eth_accounts' })
+      .then(accounts => {
+        if (accounts[0]) {
+          setAccount(accounts[0]);
+          fetchMyWatches(accounts[0]);
+        }
+      });
+
+    window.ethereum.on('accountsChanged', (accounts) => {
+      setAccount(accounts[0] || null);
+      if (accounts[0]) fetchMyWatches(accounts[0]);
+    });
+  }
+}, [fetchMyWatches]);
 
   
 
@@ -77,7 +82,7 @@ const handleDeactivate = async (watchId) => {
       args: [BigInt(parseInt(watchId))],
     });
 
-    setTimeout(() => window.location.reload(), 6000);
+    setTimeout(() => window.location.reload(), 10000);
 
   } catch (err) {
     if (!err.message?.includes('user rejected')) {

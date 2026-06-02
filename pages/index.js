@@ -136,113 +136,122 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Main Layout */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 32,
-          alignItems: 'start',
-        }}>
-          {/* Left: Create Form */}
-          <div>
-            <WatchForm account={account} onWatchCreated={fetchFeed} />
+  display: 'grid',
+  gridTemplateColumns: '1fr 1fr',
+  gap: 32,
+  alignItems: 'start',
+}}>
+  {/* Left: Create Form */}
+  <div>
+    <WatchForm account={account} onWatchCreated={fetchFeed} />
 
-            {/* How it works */}
-            <div style={{ marginTop: 24, padding: 20, background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8 }}>
-              <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>
-                How It Works
-              </h3>
-              {[
-                { n: '01', title: 'Type in plain English', desc: 'No code. No APIs. Just describe what you want to track.' },
-                { n: '02', title: 'Stored on GenLayer', desc: 'Your condition is saved permanently in an Intelligent Contract.' },
-                { n: '03', title: '5 AI validators check it', desc: 'Every 30 min, validators read the URL and reach consensus.' },
-                { n: '04', title: 'Get Discord alert + proof', desc: 'When triggered, you receive an alert with a shareable proof link.' },
-              ].map(step => (
-                <div key={step.n} style={{ display: 'flex', gap: 14, marginBottom: 14 }}>
-                  <div style={{
-                    width: 28, height: 28,
-                    background: 'var(--accent-dim)',
-                    border: '1px solid rgba(0,255,136,0.2)',
-                    borderRadius: 4,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 10,
-                    color: 'var(--accent)',
-                    flexShrink: 0,
-                  }}>
-                    {step.n}
-                  </div>
-                  <div>
-                    <p style={{ fontWeight: 600, fontSize: 13, marginBottom: 2 }}>{step.title}</p>
-                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>{step.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+    {/* How it works */}
+    <div style={{ marginTop: 24, padding: 20, background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8 }}>
+      <h3 style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 16 }}>
+        How It Works
+      </h3>
+      {[
+        { n: '01', title: 'Type in plain English', desc: 'No code. No APIs. Just describe what you want to track.' },
+        { n: '02', title: 'Stored on GenLayer', desc: 'Your condition is saved permanently in an Intelligent Contract.' },
+        { n: '03', title: '5 AI validators check it', desc: 'Every 30 min, validators read the URL and reach consensus.' },
+        { n: '04', title: 'Get Discord alert + proof', desc: 'When triggered, you receive an alert with a shareable proof link.' },
+      ].map(step => (
+        <div key={step.n} style={{ display: 'flex', gap: 14, marginBottom: 14 }}>
+          <div style={{
+            width: 28, height: 28,
+            background: 'var(--accent-dim)',
+            border: '1px solid rgba(0,255,136,0.2)',
+            borderRadius: 4,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            color: 'var(--accent)',
+            flexShrink: 0,
+          }}>
+            {step.n}
           </div>
-
-          {/* Right: Live Feed */}
           <div>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 16,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <div style={{
-                  width: 8, height: 8,
-                  borderRadius: '50%',
-                  background: 'var(--accent)',
-                  animation: 'pulse 2s infinite',
-                }} />
-                <h2 style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  Live Trigger Feed
-                </h2>
-              </div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-dim)' }}>
-                {liveCount} total
-              </span>
-            </div>
-
-            {feedLoading ? (
-              <div style={{ textAlign: 'center', padding: 60 }}>
-                <div style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 12,
-                  color: 'var(--text-muted)',
-                  animation: 'pulse 1s infinite',
-                }}>
-                  ⟳ Loading on-chain data...
-                </div>
-              </div>
-            ) : feed.length === 0 ? (
-              <div style={{
-                textAlign: 'center',
-                padding: 60,
-                background: 'var(--bg-2)',
-                border: '1px dashed var(--border)',
-                borderRadius: 8,
-              }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>🐕</div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>
-                  No triggers yet. Create the first watch!
-                </p>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {feed.slice(0, 10).map((trigger, i) => (
-                  <TriggerCard key={trigger.id} trigger={trigger} index={i} />
-                ))}
-                {feed.length > 10 && (
-                  <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)', paddingTop: 8 }}>
-                    + {feed.length - 10} more triggers on-chain
-                  </p>
-                )}
-              </div>
-            )}
+            <p style={{ fontWeight: 600, fontSize: 13, marginBottom: 2 }}>{step.title}</p>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-muted)' }}>{step.desc}</p>
           </div>
         </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Right: Live Feed — sticky + scrollable */}
+  <div style={{
+    position: 'sticky',
+    top: 80,
+    maxHeight: '85vh',
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    {/* Header — fixed */}
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+      flexShrink: 0,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{
+          width: 8, height: 8,
+          borderRadius: '50%',
+          background: 'var(--accent)',
+          animation: 'pulse 2s infinite',
+        }} />
+        <h2 style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          Live Trigger Feed
+        </h2>
+      </div>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-dim)' }}>
+        {liveCount} total
+      </span>
+    </div>
+
+    {/* Scrollable feed area */}
+    <div style={{
+      overflowY: 'auto',
+      flex: 1,
+      paddingRight: 6,
+    }}>
+      {feedLoading ? (
+        <div style={{ textAlign: 'center', padding: 60 }}>
+          <div style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 12,
+            color: 'var(--text-muted)',
+            animation: 'pulse 1s infinite',
+          }}>
+            ⟳ Loading on-chain data...
+          </div>
+        </div>
+      ) : feed.length === 0 ? (
+        <div style={{
+          textAlign: 'center',
+          padding: 60,
+          background: 'var(--bg-2)',
+          border: '1px dashed var(--border)',
+          borderRadius: 8,
+        }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>🐕</div>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--text-muted)' }}>
+            No triggers yet. Create the first watch!
+          </p>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {feed.map((trigger, i) => (
+            <TriggerCard key={trigger.id} trigger={trigger} index={i} />
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</div>
       </main>
 
       {/* Footer */}
